@@ -16,11 +16,15 @@ https://devblogs.microsoft.com/commandline/automatically-configuring-wsl/
 sudo umount /mnt/c
 sudo mount -t drvfs C: /mnt/c -o metadata
 ```
-#fstab
+# fstab
 ```
 /dev/sdb1 /pg ext4 defaults 0 0
 ```
 
-#tileserver
+## tileserver
 https://medium.com/@mojodna/tapalcatl-cloud-optimized-tile-archives-1db8d4577d92
 https://switch2osm.org/
+
+
+## others
+File transfer calculator https://techinternets.com/copy_calc

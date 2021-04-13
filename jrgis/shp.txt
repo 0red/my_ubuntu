@@ -1,0 +1,16 @@
+pl_admin_poly;select * from jrgis.pl_admin_poly
+pl_admin_4woj;select * from jrgis.pl_admin_poly where admin_level='4'
+pl_admin_6pow;select * from jrgis.pl_admin_poly where admin_level='6'
+pl_admin_7gmi;select * from jrgis.pl_admin_poly where admin_level='7'
+pl_admin_8mia;select * from jrgis.pl_admin_poly where admin_level='8'
+pl_railway_poly;select * from jrgis.pl_railway_poly
+pl_forest_poly;select * from jrgis.pl_forest_poly
+pl_road_highway;select * from jrgis.pl_highways where level=1
+pl_road_trunk;select * from jrgis.pl_highways where level=2
+pl_road_primary;select * from jrgis.pl_highways where level=3
+pl_road_secondary;select * from jrgis.pl_highways where level=4
+pl_road_tertiary;select * from jrgis.pl_highways where level=5
+pl_road_other;select * from jrgis.pl_highways where level=6
+pl_road_all;select * from jrgis.pl_highways
+pl_road_top;select * from jrgis.pl_highways where level<6
+pl_railway;select * from jrgis.pl_railway

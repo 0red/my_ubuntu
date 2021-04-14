@@ -37,6 +37,11 @@ DECLARE
 	DROP TABLE IF EXISTS jrgis.pl_water_poly CASCADE;
 	RAISE NOTICE 'DROP TIME %',clock_timestamp() - t1;
 	
+	RAISE NOTICE 'pl_building_poly';
+	t1 := clock_timestamp();
+	DROP TABLE IF EXISTS jrgis.pl_building_poly CASCADE;
+	RAISE NOTICE 'DROP TIME %',clock_timestamp() - t1;
+	
 	RAISE NOTICE 'drop table finishes (%)',clock_timestamp() - t;
 	RAISE NOTICE 'jrgis.createtables(); - use for tables creation';
 
@@ -119,6 +124,14 @@ create index pl_water_poly_idx on jrgis.pl_water_poly(osm_id);
 create index pl_water_poly_gdx on jrgis.pl_water_poly USING gist (way);
 create index pl_water_poly_wdx on jrgis.pl_water_poly(osm_id,water);	
 RAISE NOTICE 'TIME %',clock_timestamp() - t1;
+
+
+	RAISE NOTICE 'pl_building_poly';
+	t1 := clock_timestamp();
+create table jrgis.pl_building_poly as 
+select osm_id ,"addr:housename" as nazwa,"addr:housenumber" as nr,"ref",name,"access" ,"aeroway","amenity","barrier", way  from planet_osm_polygon  where  building is not null;
+RAISE NOTICE 'TIME %',clock_timestamp() - t1;
+
 	
 	RAISE NOTICE 'create table finishes (%)',clock_timestamp() - t;
 	RAISE NOTICE 'jrgis.createtables() END';

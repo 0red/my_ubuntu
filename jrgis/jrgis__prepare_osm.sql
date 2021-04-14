@@ -118,8 +118,8 @@ RAISE NOTICE 'TIME %',clock_timestamp() - t1;
 	RAISE NOTICE 'pl_water_poly';
 	t1 := clock_timestamp();
 create table jrgis.pl_water_poly as 
-select osm_id,water,waterway,name,ref,way_area,tags,way from planet_osm_polygon where
-"natural"='water' ;
+select osm_id,water,waterway,name,ref,way_area,tags,way,"natural",landuse,man_made from planet_osm_polygon where
+"natural" = any(ARRAY['water','mud']) or waterway is not null  or "landuse" = any(array['basin','reservoir','pond' ,'salt_pond']) or man_made= any(array['reservoir_covered']);
 create index pl_water_poly_idx on jrgis.pl_water_poly(osm_id);
 create index pl_water_poly_gdx on jrgis.pl_water_poly USING gist (way);
 create index pl_water_poly_wdx on jrgis.pl_water_poly(osm_id,water);	

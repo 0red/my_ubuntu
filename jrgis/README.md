@@ -22,3 +22,18 @@ CREATE LANG plpythonu;
 
 select * from pg_pltemplate;
 ```
+
+# osm to poly
+
+https://gis.stackexchange.com/questions/348580/making-lines-from-nodes-using-openstreetmap-and-postgis-tilemill
+```sql
+SELECT way_id, st_makeline(coord) AS way 
+    INTO __test
+    FROM (SELECT b.id AS way_id, ST_SetSRID(st_makepoint(lon, lat), 3857) AS coord
+        FROM (SELECT id, unnest(nodes) AS node_id FROM planet_osm_ways WHERE 'cobblestone'=any(tags)) a 
+        INNER JOIN planet_osm_nodes b 
+            ON a.node_id=b.id
+        ORDER BY way_id
+    ) c
+    GROUP BY way_id
+```

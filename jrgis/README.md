@@ -60,3 +60,14 @@ create table ipm.ise_geom as
   )
 ) from ipm.ise i group by ise;  
 ```
+## osm (3857) to wgs (4326)
+
+```sql
+SELECT UpdateGeometrySRID('silk','ise_adresy','geom',4326);
+UPDATE silk.ise_adresy set geom=ST_Transform(ST_GeomFromText('POLYGON ((2080651.9081237381 6563518.367034862, 2080664.4093025539 6563508.073926179, 2080675.274084855 6563520.43971018, 2080662.5057392614 6563531.347611747, 2080651.9081237381 6563518.367034862))',3857),4326) where osm_id=254516262;
+```
+
+## nice buffer
+```sql
+select ise,st_union(st_buffer(ST_SetSRID(geom,4326),0.01,'endcap=flat join=round quad_segs=4')) from ipm.ise i group by ise
+```

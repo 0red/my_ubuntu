@@ -11,6 +11,8 @@ pl_road_primary;select * from jrgis.pl_highways where level=3
 pl_road_secondary;select * from jrgis.pl_highways where level=4
 pl_road_tertiary;select * from jrgis.pl_highways where level=5
 pl_road_other;select * from jrgis.pl_highways where level=6
+pl_road_construction;select * from jrgis.pl_highways where level=11
+pl_road_proposed;select * from jrgis.pl_highways where level=12
 pl_road_all;select * from jrgis.pl_highways
 pl_road_top;select * from jrgis.pl_highways where level<6
 pl_railway;select * from jrgis.pl_railway

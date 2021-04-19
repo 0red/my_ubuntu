@@ -108,6 +108,10 @@ create table jrgis.pl_highways as
 	select 5,osm_id,ref,name,bridge,oneway,tunnel,surface,layer,tags,way from planet_osm_line where highway='tertiary' or highway='tertiary_link'
 	union
 	select 6,osm_id,ref,name,bridge,oneway,tunnel,surface,layer,tags,way from planet_osm_line where highway='unclassified' or highway='residential' or highway='tracks';
+	union
+	select 11,osm_id,ref,name,bridge,oneway,tunnel,surface,layer,tags,way from planet_osm_line where highway='construction';
+	union
+	select 12,osm_id,ref,name,bridge,oneway,tunnel,surface,layer,tags,way from planet_osm_line where highway='proposed' ;
 
 create index pl_highways_idx on jrgis.pl_highways(osm_id);
 create index pl_highways_gdx on jrgis.pl_highways USING gist (way);

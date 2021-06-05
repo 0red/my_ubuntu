@@ -73,7 +73,7 @@ select ise,st_union(st_buffer(ST_SetSRID(geom,4326),0.01,'endcap=flat join=round
 ```
 
 
-## just circle/round without inside
+## just circle/round without inside    SIMPLE postgis circle without interior
 ```
 select  ST_ExteriorRing(st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') ::geography,3000)::geometry)
 ```

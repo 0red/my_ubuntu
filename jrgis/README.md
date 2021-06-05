@@ -71,3 +71,31 @@ UPDATE silk.ise_adresy set geom=ST_Transform(ST_GeomFromText('POLYGON ((2080651.
 ```sql
 select ise,st_union(st_buffer(ST_SetSRID(geom,4326),0.01,'endcap=flat join=round quad_segs=4')) from ipm.ise i group by ise
 ```
+
+
+## just circle/round without inside
+```
+select  ST_ExteriorRing(st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') ::geography,3000)::geometry)
+```
+
+## find point on line in radius from point
+```
+with a as (
+with l as (select * from silk.linie l where l.d29 =1)
+select  (st_intersection(l.geom, ST_ExteriorRing(
+st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') ::geography,3000)::geometry))) as g from l
+) select (st_dump(a.g)).geom from a;
+```
+
+
+```
+with a as (
+with l as (select * from silk.linie l where l.d29 =1)
+select  (st_intersection(l.geom, ST_ExteriorRing(
+st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') ::geography,3000)::geometry))) as g from l
+) select (st_dump(a.g)).geom from a;
+```
+
+
+
+

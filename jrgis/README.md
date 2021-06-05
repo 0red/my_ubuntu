@@ -78,12 +78,11 @@ select ise,st_union(st_buffer(ST_SetSRID(geom,4326),0.01,'endcap=flat join=round
 select  ST_ExteriorRing(st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') ::geography,3000)::geometry)
 ```
 
-## find point on line in radius from point
+## find point on line in radius from point 51.3846 19.69418 radius 3000 meters from line
 ```
 with a as (
-with l as (select * from silk.linie l where l.d29 =1)
-select  (st_intersection(l.geom, ST_ExteriorRing(
-st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') ::geography,3000)::geometry))) as g from l
+select  (st_intersection(GeomFromEWKT('SRID=4326;LINESTRING(19.694182652765836 51.42789888344511, 19.666035624597775 51.28897648156998)'), 
+ST_ExteriorRing(st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') ::geography,3000)::geometry))) as g
 ) select (st_dump(a.g)).geom from a;
 ```
 

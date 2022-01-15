@@ -97,4 +97,9 @@ st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') :
 
 
 
+## shp2pgsql shp to postgres
+https://www.bostongis.com/pgsql2shp_shp2pgsql_quickguide.bqg
 
+```
+shp2pgsql -s2180:4326 "C3_Best server at each pixel_cała sieć.shp" jr.best105s >best105_4326.sql
+```

@@ -103,3 +103,29 @@ https://www.bostongis.com/pgsql2shp_shp2pgsql_quickguide.bqg
 ```
 shp2pgsql -s2180:4326 "C3_Best server at each pixel_cała sieć.shp" jr.best105s >best105_4326.sql
 ```
+
+## pgsql connect db as schema in other db
+
+https://stackoverflow.com/questions/3195125/copy-a-table-from-one-database-to-another-in-postgres
+'''
+pg_dump -t table_to_copy source_db | psql target_db    
+'''
+
+https://www.postgresql.org/docs/13/postgres-fdw.html
+https://www.postgresql.org/docs/13/sql-importforeignschema.html
+'''
+CREATE SERVER bestserver FOREIGN DATA WRAPPER postgres_fdw OPTIONS (
+    dbname 'bestserver',
+    host '127.0.0.1',
+    port '5432'
+);
+
+CREATE USER MAPPING FOR postgres SERVER bestserver OPTIONS (
+    password 'pass',
+    "user" 'user'
+);
+
+IMPORT FOREIGN SCHEMA jr
+    FROM SERVER bestserver INTO bestserver;
+'''
+

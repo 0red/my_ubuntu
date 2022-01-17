@@ -107,25 +107,29 @@ shp2pgsql -s2180:4326 "C3_Best server at each pixel_cała sieć.shp" jr.best105s
 ## pgsql connect db as schema in other db
 
 https://stackoverflow.com/questions/3195125/copy-a-table-from-one-database-to-another-in-postgres
-'''
+```
 pg_dump -t table_to_copy source_db | psql target_db    
-'''
+```
+
 
 https://www.postgresql.org/docs/13/postgres-fdw.html
+
 https://www.postgresql.org/docs/13/sql-importforeignschema.html
-'''
-CREATE SERVER bestserver FOREIGN DATA WRAPPER postgres_fdw OPTIONS (
-    dbname 'bestserver',
+```
+CREATE SERVER server_name_in_new_db FOREIGN DATA WRAPPER postgres_fdw OPTIONS (
+    dbname 'remote_server',
     host '127.0.0.1',
     port '5432'
 );
 
-CREATE USER MAPPING FOR postgres SERVER bestserver OPTIONS (
+CREATE USER MAPPING FOR postgres SERVER server_name_in_new_db OPTIONS (
     password 'pass',
     "user" 'user'
 );
 
-IMPORT FOREIGN SCHEMA jr
-    FROM SERVER bestserver INTO bestserver;
-'''
+CREATE SCHEMA new_schema;
 
+IMPORT FOREIGN SCHEMA remote_schema
+    FROM SERVER server_name_in_new_db INTO new_schema;
+```
+will remote_server.remote_schema (from host:port user/pass) to remote_schema in existing DB 

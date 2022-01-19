@@ -37,6 +37,11 @@ SELECT way_id, st_makeline(coord) AS way
     ) c
     GROUP BY way_id
 ```
+# st_length in meters
+```
+st_length(st_transform(geom,900913)) as len
+```
+
 # st_buffer in meters
 https://gist.github.com/rdeguzman/99e7fce88458aca678f52bf1a876d36a
 

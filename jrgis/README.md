@@ -39,7 +39,7 @@ SELECT way_id, st_makeline(coord) AS way
 ```
 # st_length in meters
 ```
-st_length(st_transform(geom,900913)) as len
+st_length(geom::GEOGRAPHY ) as len
 ```
 
 # st_buffer in meters

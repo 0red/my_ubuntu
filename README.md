@@ -93,3 +93,9 @@ Next, run the following command to apply the new configurations.
 ```bash 
 $ sudo netplan apply
 ``` 
+
+## PHP post limit truncate
+```
+upload_max_filesize = 1000M;
+post_max_size = 1000M;
+```

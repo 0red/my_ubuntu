@@ -12,7 +12,7 @@ UPDATE pg_catalog.pg_pltemplate
 ```
 
 Other commands
-```
+```sql
 SELECT name, default_version, installed_version FROM pg_available_extensions WHERE name LIKE('py*')
 
 select * from pg_language;
@@ -38,7 +38,7 @@ SELECT way_id, st_makeline(coord) AS way
     GROUP BY way_id
 ```
 # st_length in meters
-```
+```sql
 st_length(geom::GEOGRAPHY ) as len
 ```
 
@@ -79,12 +79,12 @@ select ise,st_union(st_buffer(ST_SetSRID(geom,4326),0.01,'endcap=flat join=round
 
 
 ## just circle/round without inside    SIMPLE postgis circle without interior
-```
+```sql
 select  ST_ExteriorRing(st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') ::geography,3000)::geometry)
 ```
 
 ## find point on line in radius from point 51.3846 19.69418 radius 3000 meters from line
-```
+```sql
 with a as (
 select  (st_intersection(GeomFromEWKT('SRID=4326;LINESTRING(19.694182652765836 51.42789888344511, 19.666035624597775 51.28897648156998)'), 
 ST_ExteriorRing(st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.38468811400849)') ::geography,3000)::geometry))) as g
@@ -92,7 +92,7 @@ ST_ExteriorRing(st_buffer(st_astext('SRID=4326; POINT (19.680567919951486 51.384
 ```
 
 
-```
+```sql
 with a as (
 with l as (select * from silk.linie l where l.d29 =1)
 select  (st_intersection(l.geom, ST_ExteriorRing(
@@ -120,7 +120,7 @@ pg_dump -t table_to_copy source_db | psql target_db
 https://www.postgresql.org/docs/13/postgres-fdw.html
 
 https://www.postgresql.org/docs/13/sql-importforeignschema.html
-```
+```sql
 CREATE SERVER server_name_in_new_db FOREIGN DATA WRAPPER postgres_fdw OPTIONS (
     dbname 'remote_server',
     host '127.0.0.1',
@@ -154,4 +154,26 @@ select st_union(st_transform(
     4326
   )
 ) from silk.linie_legacy ll 
+```
+
+## lines with legacy coverage
+
+```sql
+with x as (
+with legacy as (
+select st_union(st_transform(
+    st_buffer(
+      st_transform(geom, 900913),
+      8000 --radius in meters
+      ,'endcap=flat join=round quad_segs=4'
+    ),
+    4326
+  )
+) as legacy_geom from silk.linie_legacy ll 
+--where csc_short ='004_1'
+--group by csc
+) 
+
+select csc,d29,km_od,km_do,ST_Intersection(geom,legacy.legacy_geom) as geom from ipm.cwe,legacy
+) select * from x where not ST_IsEmpty(x.geom)
 ```

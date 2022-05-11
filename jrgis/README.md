@@ -138,3 +138,20 @@ IMPORT FOREIGN SCHEMA remote_schema
     FROM SERVER server_name_in_new_db INTO new_schema;
 ```
 will remote_server.remote_schema (from host:port user/pass) to remote_schema in existing DB 
+
+
+
+
+## legacy coverage
+
+```sql
+select st_union(st_transform(
+    st_buffer(
+      st_transform(geom, 900913),
+      8000 --radius in meters
+      ,'endcap=flat join=round quad_segs=4'
+    ),
+    4326
+  )
+) from silk.linie_legacy ll 
+```

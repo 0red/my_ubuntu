@@ -49,7 +49,7 @@ https://overpass-turbo.eu/
 
 # get polygon
 
-'''php
+```php
 <?php
 $dane=array(
   array("zachodniopomorskie","ZP",104401),
@@ -91,4 +91,4 @@ function doit($dane) {
 doit($dane);
 
 ?>
-'''
+```

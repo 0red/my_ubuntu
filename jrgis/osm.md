@@ -46,3 +46,49 @@ https://overpass-turbo.eu/
    */
   let geojson2polygon=(z)=>"POLYGON(("+z.map(x=>x.join(" ")).join(",")+"))"
 ```
+
+# get polygon
+
+'''php
+<?php
+$dane=array(
+  array("zachodniopomorskie","ZP",104401),
+  array("wielkopolskie","WK",130971),
+  array("warmińsko-mazurskie","WM",223408),
+  array("świętokrzyskie","ŚW",130914),
+  array("śląskie","ŚL",224462),
+  array("pomorskie","PO",130975),
+  array("podkarpackie","PK",130957),
+  array("podlaskie","PL",224461),
+  array("opolskie","OP",224460),
+  array("małopolskie","MŁ",224459),
+  array("mazowieckie","MA",130935),
+  array("lubelskie","LU",130919),
+  array("łódzkie","ŁÓ",224458),
+  array("lubuskie","LB",130969),
+  array("kujawsko-pomorskie","KP",223407),
+  array("dolnośląskie","DŚ",224457)
+);
+
+// http://polygons.openstreetmap.fr/index.py
+// https://www.openstreetmap.org/relation/49715#map=6/52.121/19.108
+function doit($dane) {
+  $url="http://polygons.openstreetmap.fr/get_wkt.py?id=%id%&params=%params%";
+  $params=array("geo_full"=>"0","geo_low"=>"0.020000-0.005000-0.005000");
+  $osm=array('name',"sname","osm_id");
+  foreach ($dane as $d1) {
+    $d=array_combine($osm,$d1);
+    foreach($params as $k=>$p) {
+      $d[$k]=file_get_contents( str_replace(array("%id%","%params%"),array($d1[2],$p),$url));sleep(1);
+    }
+        
+    print "INSERT INTO silk.woj(\n\t".join(",",(array_map(function($x) {return "\"$x\"";},array_keys($d)))).") VALUES (\n\t"
+      .join(",",(array_map(function($x) {return "'".trim($x)."'";},array_values($d)))).");\n";
+
+  }
+
+}
+doit($dane);
+
+?>
+'''
